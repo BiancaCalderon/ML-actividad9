@@ -129,11 +129,6 @@ make run CLI="poetry run transactions-pipeline" CSV=/ruta/transacciones.csv
 
 Un trabajo de GitHub Actions puede instalar el paquete y llamar `make run`. Así, el mismo objetivo sirve para automatización local y CI. Make requiere estar instalado; en Windows se puede usar WSL.
 
-## 7. Validación y límites
-
-Ver los resultados concretos en `VALIDACION.md`. El ZIP original no contiene el dataset, por lo que la validación utiliza datos sintéticos y no demuestra desempeño predictivo con datos reales.
-
-Advertencia del código heredado: si falta `Amount (INR)`, `build_target` genera etiquetas aleatorias. Para un uso real se debería reemplazar ese comportamiento por un error de validación y revisar el diseño de la etiqueta. Esta adaptación se enfoca en entrypoints y no modifica la metodología del modelo.
 
 ## Referencias
 
