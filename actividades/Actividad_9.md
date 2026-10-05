@@ -1,6 +1,26 @@
-# Investigación y adaptación: entrypoints de Python
 
-## 1. ¿Qué es un entrypoint?
+# Actividad 9
+
+Francis Aguilar 22243 
+
+Paula Barillas 22764 
+
+Bianca Calderón 22272 
+
+José Marchena, 22398 
+
+Gerardo Pineda 22880 
+
+Mónica Salvatierra 22249 
+
+## Repositorio
+
+https://github.com/BiancaCalderon/ML-actividad9
+
+
+## Investigación y adaptación: entrypoints de Python
+
+### 1. ¿Qué es un entrypoint?
 
 Un entrypoint es metadato de un paquete instalado que anuncia un componente para que otras herramientas lo descubran y utilicen. Tiene un grupo, un nombre y una referencia a un objeto Python. Los grupos `console_scripts` y `gui_scripts` permiten crear comandos; otros grupos permiten descubrir plugins.
 
@@ -20,7 +40,7 @@ Al instalar el paquete, el instalador crea un ejecutable que importa esa funció
 
 `if __name__ == "__main__"` permite ejecutar un módulo directamente, pero por sí solo no registra metadatos ni crea un comando instalado. Tampoco debe confundirse un entrypoint de empaquetado con la instrucción `ENTRYPOINT` de Docker.
 
-## 2. Adaptación realizada
+### 2. Adaptación realizada
 
 El ZIP original ya incluía `[project.scripts]` y una CLI con `extract`, `clean` y `train`. Por ello, esta adaptación completa la integración existente:
 
@@ -34,7 +54,7 @@ El ZIP original ya incluía `[project.scripts]` y una CLI con `extract`, `clean`
 
 La lógica del modelo permanece en `pipeline.py`. El entrypoint inicia la aplicación; `sklearn.pipeline.Pipeline` encadena los transformadores y el estimador dentro del entrenamiento. Son responsabilidades diferentes y complementarias.
 
-## 3. Instalación y ejecución
+### 3. Instalación y ejecución
 
 Desde `ML-Taller2-main/taller2/transactions-pipeline`, con Python 3.10 o superior:
 
@@ -58,7 +78,7 @@ transactions-pipeline train --input data/cleaned.csv --features data/features.js
 
 `run` utiliza `data/` para los CSV intermedios y `features.json`, y `models/model.joblib` para el mejor pipeline entrenado. `--work-dir` y `--model-out` permiten cambiar esas rutas. Las rutas relativas se resuelven respecto al directorio desde el cual se ejecuta el comando. El log registra el entrenamiento.
 
-## 4. ¿Qué usos tendría en producción?
+### 4. ¿Qué usos tendría en producción?
 
 Un entrypoint permite ofrecer una interfaz estable para iniciar tareas sin conocer la ubicación interna de los archivos Python. En este caso, un servidor puede ejecutar `transactions-pipeline run ...` para entrenar un modelo por lotes.
 
@@ -72,7 +92,7 @@ Aplicaciones concretas:
 
 Estos usos son aplicaciones del mecanismo descrito por PyPA. El entrypoint facilita la invocación; la reproducibilidad también requiere controlar versiones, datos y configuración. No implementa por sí mismo planificación, reintentos ni monitoreo.
 
-## 5. ¿Se puede usar con Conda, uv, Poetry y pip?
+### 5. ¿Se puede usar con Conda, uv, Poetry y pip?
 
 Sí. El entrypoint pertenece al paquete y sus metadatos, mientras que el gestor instala el paquete o administra el entorno donde se ejecuta.
 
@@ -96,7 +116,7 @@ Conda no instala directamente este `pyproject.toml` mediante `conda install .`: 
 
 La configuración adaptada usa metadatos estándar y mantiene un backend setuptools. Los comandos uv y Poetry se fundamentan en sus interfaces documentadas; no se probaron en esta ejecución. Después de cambiar un entrypoint conviene reinstalar el proyecto para regenerar sus ejecutables. El entorno debe estar activo o el comando debe ejecutarse mediante su gestor para que el ejecutable sea accesible.
 
-## 6. ¿Qué relación tiene con un Makefile?
+### 6. ¿Qué relación tiene con un Makefile?
 
 Un Makefile define objetivos, dependencias y recetas de comandos. Puede invocar el entrypoint como cualquier programa. El entrypoint expone la aplicación Python y Make organiza tareas del proyecto.
 
@@ -128,7 +148,6 @@ make run CLI="poetry run transactions-pipeline" CSV=/ruta/transacciones.csv
 ```
 
 Un trabajo de GitHub Actions puede instalar el paquete y llamar `make run`. Así, el mismo objetivo sirve para automatización local y CI. Make requiere estar instalado; en Windows se puede usar WSL.
-
 
 ## Referencias
 
